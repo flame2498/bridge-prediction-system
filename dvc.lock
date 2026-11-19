@@ -42,11 +42,11 @@ stages:
       size: 193
     - path: models/model.pkl
       hash: md5
-      md5: abdb713c2b07fbcddfd197076256cfd7
+      md5: d5d581a9c107a986cdda00a9cdb0edc8
       size: 3748
     - path: models/model_info.json
       hash: md5
-      md5: f262b3cde64796ed2560451e94120359
+      md5: da2de305a460efd68d480a00d063a8be
       size: 1091
     - path: models/reference_inputs.csv
       hash: md5

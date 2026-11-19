@@ -81,12 +81,17 @@ bridge-condition-prediction/
 │   └── app.py                     # Streamlit UI
 ├── logs/                          # predictions.csv and app.log are created at run time
 ├── requirements.txt               # runtime dependencies
-├── requirements-dev.txt           # + MLflow and notebook dependencies
-├── Dockerfile
+├── requirements-dev.txt           # + MLflow, DVC and notebook dependencies
+├── params.yaml                    # hyperparameters for training pipeline
+├── dvc.yaml                       # DVC reproducible pipeline stages
+├── dvc.lock                       # DVC pipeline reproduction lock file
+├── metrics.json                   # tracked evaluation metrics
+├── Dockerfile                     # container image specification
+├── docker-compose.yml             # Docker Compose specification with persistent log volumes
 └── README.md
 ```
 
-`src/monitor.py`, `requirements-dev.txt`, the `Dockerfile` and `.gitignore` are additions to the standard layout.
+`src/monitor.py`, `dvc.yaml`, `params.yaml`, `docker-compose.yml`, `requirements-dev.txt`, the `Dockerfile` and `.gitignore` are additions to the standard layout.
 
 ## 5. How to Run
 
@@ -114,6 +119,10 @@ python -m src.monitor --feedback <prediction_id> 1   # record the real condition
 
 # 6. Compare experiments
 mlflow ui --backend-store-uri sqlite:///mlflow.db    # opens http://localhost:5000
+
+# 7. Reproduce pipeline with DVC
+dvc repro                                           # reproduces prepare and train stages
+dvc metrics show                                    # view model performance metrics
 ```
 
 Try other settings and compare the runs in MLflow without touching the saved model:
@@ -154,28 +163,29 @@ To re-run the notebooks, open them from the `notebooks/` folder (`jupyter notebo
 
 On Streamlit Cloud the `logs/` folder is temporary storage, so prediction logs reset whenever the app restarts. For permanent logs, write to a database or cloud storage instead.
 
-**Docker:**
+**Docker (with persistent logs):**
 ```bash
+# Using Docker Compose (recommended - mounts ./logs for persistence)
+docker compose up -d
+
+# Or using plain Docker
 docker build -t bridge-condition-app .
-docker run -p 8501:8501 bridge-condition-app
+docker run -p 8501:8501 -v $(pwd)/logs:/app/logs bridge-condition-app
+```
+Access at `http://localhost:8501`.
+
+## 8. GitHub Repository
+
+Repository URL:
+```bash
+https://github.com/flame2498/bridge-prediction-system.git
 ```
 
-## 8. Publish to GitHub
-
-The repository already contains a commit history. Create an empty repository on GitHub (no README), then:
-
+To push changes to GitHub:
 ```bash
-git remote add origin https://github.com/<your-username>/bridge-condition-prediction.git
-git branch -M main
-git push -u origin main
-```
-
-Commits were created with a placeholder author. To use your own name and email for the commits:
-
-```bash
-git config user.name "Your Name"
-git config user.email "you@example.com"
-git rebase --root --exec "git commit --amend --reset-author --no-edit"
+git add .
+git commit -m "Your commit message"
+git push origin main
 ```
 
 ## 9. Using the Model
