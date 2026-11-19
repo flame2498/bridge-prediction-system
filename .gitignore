@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Experiment tracking output (recreated by `python -m src.train`)
+mlflow.db
+mlartifacts/
+mlruns/
+
+# Runtime logs (keep the folder, not the contents)
+logs/*
+!logs/.gitkeep
+
+# Local settings
+.streamlit/secrets.toml
+.DS_Store
