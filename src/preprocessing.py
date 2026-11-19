@@ -79,3 +79,12 @@ def split_data(df: pd.DataFrame, test_size: float = 0.20, random_state: int = 42
     X = df[RAW_FEATURES]
     y = df[TARGET]
     return train_test_split(X, y, test_size=test_size, random_state=random_state, stratify=y)
+
+
+if __name__ == "__main__":
+    raw = load_raw_data()
+    clean = clean_data(raw)
+    out_path = PROJECT_ROOT / "data" / "bridge_data_clean.csv"
+    clean.to_csv(out_path, index=False)
+    print(f"Cleaned {len(raw)} rows down to {len(clean)} rows, saved to {out_path}")
+

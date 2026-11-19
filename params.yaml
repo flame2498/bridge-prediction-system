@@ -1,0 +1,4 @@
+train:
+  max_depth: 4
+  min_samples_leaf: 10
+  random_state: 42

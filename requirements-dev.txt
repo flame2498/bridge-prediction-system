@@ -1,6 +1,7 @@
-# Full development setup: runtime + experiment tracking + notebooks
+# Full development setup: runtime + experiment tracking + notebooks + DVC
 -r requirements.txt
 mlflow>=2.14
 matplotlib>=3.8
 seaborn>=0.13
 jupyter>=1.0
+dvc>=3.50

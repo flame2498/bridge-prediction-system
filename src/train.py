@@ -42,6 +42,8 @@ MODELS_DIR = PROJECT_ROOT / "models"
 MODEL_PATH = MODELS_DIR / "model.pkl"
 MODEL_INFO_PATH = MODELS_DIR / "model_info.json"
 REFERENCE_PATH = MODELS_DIR / "reference_inputs.csv"
+METRICS_PATH = PROJECT_ROOT / "metrics.json"
+PARAMS_PATH = PROJECT_ROOT / "params.yaml"
 MLFLOW_DB = PROJECT_ROOT / "mlflow.db"
 
 # Best hyperparameters found with GridSearchCV / RandomizedSearchCV in Sprint 3
@@ -111,6 +113,16 @@ def main(args) -> dict:
     logger.info("Train: %d rows | Test: %d rows", len(X_train), len(X_test))
 
     params = {**DEFAULT_PARAMS}
+    if PARAMS_PATH.exists():
+        try:
+            import yaml
+            with open(PARAMS_PATH) as f:
+                cfg = yaml.safe_load(f)
+                if cfg and "train" in cfg:
+                    params.update({k: v for k, v in cfg["train"].items() if k in params or k in ["max_depth", "min_samples_leaf", "random_state"]})
+        except Exception as e:
+            logger.warning("Could not read params.yaml: %s", e)
+
     if args.max_depth is not None:
         params["max_depth"] = args.max_depth
     if args.min_samples_leaf is not None:
@@ -154,8 +166,9 @@ def main(args) -> dict:
             "metrics": {k: round(float(v), 4) for k, v in metrics.items()},
         }
         MODEL_INFO_PATH.write_text(json.dumps(info, indent=2))
+        METRICS_PATH.write_text(json.dumps(info["metrics"], indent=2))
         X_train.to_csv(REFERENCE_PATH, index=False)  # reference data for drift monitoring
-        logger.info("Saved %s, %s and %s", model_path, MODEL_INFO_PATH.name, REFERENCE_PATH.name)
+        logger.info("Saved %s, %s, %s and %s", model_path, MODEL_INFO_PATH.name, METRICS_PATH.name, REFERENCE_PATH.name)
 
     if not args.no_track:
         log_to_mlflow(args.run_name, params, metrics, model_path)

@@ -1,8 +1,8 @@
 {
-  "model_version": "v20261119-110710",
-  "trained_at": "2026-11-19T11:07:10+00:00",
+  "model_version": "v20261119-122106",
+  "trained_at": "2026-11-19T12:21:06+00:00",
   "model_type": "DecisionTreeClassifier",
-  "sklearn_version": "1.9.1",
+  "sklearn_version": "1.7.2",
   "params": {
     "max_depth": 4,
     "min_samples_leaf": 10,

@@ -1,0 +1,10 @@
+{
+  "test_accuracy": 0.8487,
+  "test_precision": 0.5263,
+  "test_recall": 1.0,
+  "test_f1": 0.6897,
+  "test_roc_auc": 0.9356,
+  "train_f1": 0.72,
+  "cv_f1_mean": 0.7266,
+  "cv_f1_std": 0.0399
+}

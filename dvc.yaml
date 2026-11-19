@@ -1,0 +1,29 @@
+stages:
+  prepare:
+    cmd: python -m src.preprocessing
+    deps:
+      - data/bridge_data.csv
+      - src/preprocessing.py
+    outs:
+      - data/bridge_data_clean.csv:
+          cache: false
+
+  train:
+    cmd: python -m src.train --data data/bridge_data_clean.csv
+    deps:
+      - data/bridge_data_clean.csv
+      - src/preprocessing.py
+      - src/train.py
+    params:
+      - train.max_depth
+      - train.min_samples_leaf
+    outs:
+      - models/model.pkl:
+          cache: false
+      - models/model_info.json:
+          cache: false
+      - models/reference_inputs.csv:
+          cache: false
+    metrics:
+      - metrics.json:
+          cache: false

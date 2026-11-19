@@ -1,0 +1,54 @@
+schema: '2.0'
+stages:
+  prepare:
+    cmd: python -m src.preprocessing
+    deps:
+    - path: data/bridge_data.csv
+      hash: md5
+      md5: bb006065a05c896e3daa0a2e81e680e5
+      size: 21205
+    - path: src/preprocessing.py
+      hash: md5
+      md5: e46679f3f3d66a77f329ea77f3fd2db3
+      size: 3271
+    outs:
+    - path: data/bridge_data_clean.csv
+      hash: md5
+      md5: b5fb03888050287e8fdc5118a274ad4b
+      size: 16613
+  train:
+    cmd: python -m src.train --data data/bridge_data_clean.csv
+    deps:
+    - path: data/bridge_data_clean.csv
+      hash: md5
+      md5: b5fb03888050287e8fdc5118a274ad4b
+      size: 16613
+    - path: src/preprocessing.py
+      hash: md5
+      md5: e46679f3f3d66a77f329ea77f3fd2db3
+      size: 3271
+    - path: src/train.py
+      hash: md5
+      md5: f5663f96dc9cd9d7450683a5dbc7ff77
+      size: 7349
+    params:
+      params.yaml:
+        train.max_depth: 4
+        train.min_samples_leaf: 10
+    outs:
+    - path: metrics.json
+      hash: md5
+      md5: 9fb1798be791dc12f94a3fd68df6e71d
+      size: 193
+    - path: models/model.pkl
+      hash: md5
+      md5: abdb713c2b07fbcddfd197076256cfd7
+      size: 3748
+    - path: models/model_info.json
+      hash: md5
+      md5: f262b3cde64796ed2560451e94120359
+      size: 1091
+    - path: models/reference_inputs.csv
+      hash: md5
+      md5: 43315617fa30f38dd98cc25f0e975959
+      size: 3657
