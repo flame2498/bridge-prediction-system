@@ -1,0 +1,9 @@
+services:
+  bridge-condition-app:
+    build: .
+    container_name: bridge-condition-app
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./logs:/app/logs
+    restart: unless-stopped
