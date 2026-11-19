@@ -1,0 +1,7 @@
+# Runtime: training, prediction, monitoring and the Streamlit app
+scikit-learn==1.9.1
+pandas>=2.2
+numpy>=1.26
+scipy>=1.11
+joblib>=1.4
+streamlit>=1.40

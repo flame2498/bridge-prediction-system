@@ -1,0 +1,52 @@
+{
+  "model_version": "v20261119-110710",
+  "trained_at": "2026-11-19T11:07:10+00:00",
+  "model_type": "DecisionTreeClassifier",
+  "sklearn_version": "1.9.1",
+  "params": {
+    "max_depth": 4,
+    "min_samples_leaf": 10,
+    "class_weight": "balanced",
+    "random_state": 42
+  },
+  "raw_features": [
+    "age_of_bridge",
+    "traffic_volume"
+  ],
+  "model_features": [
+    "age_of_bridge",
+    "traffic_volume",
+    "traffic_per_year",
+    "old_and_busy"
+  ],
+  "target": "bridge_condition (1 = Good, 0 = Poor)",
+  "training_rows": 473,
+  "test_rows": 119,
+  "training_input_range": {
+    "age_of_bridge": [
+      1.0,
+      99.0
+    ],
+    "traffic_volume": [
+      51.0,
+      4966.0
+    ]
+  },
+  "zone_stats": {
+    "age_threshold": 50,
+    "traffic_threshold": 2000,
+    "bridges_in_zone": 144,
+    "share_good_in_zone": 0.5625,
+    "good_outside_zone": 0
+  },
+  "metrics": {
+    "test_accuracy": 0.8487,
+    "test_precision": 0.5263,
+    "test_recall": 1.0,
+    "test_f1": 0.6897,
+    "test_roc_auc": 0.9356,
+    "train_f1": 0.72,
+    "cv_f1_mean": 0.7266,
+    "cv_f1_std": 0.0399
+  }
+}
